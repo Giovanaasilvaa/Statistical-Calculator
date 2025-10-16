@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Estatística Avançada</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.png" type="image/png">
+</head>
+
+<body>
+
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            
+
+            <div class="header-content">
+                
+                <div class="logo">
+                    <span class="logo-icon">📊</span>
+                    <h1>Calculadora Estatística</h1>
+                </div>
+                <p class="tagline">Análise completa de dados com visualizações avançadas</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Menu Principal -->
+            <section id="menu" class="menu-section">
+                <div class="section-header">
+                    <h2>Selecione o Tipo de Análise</h2>
+                    <p>Escolha o formato dos seus dados para começar</p>
+                </div>
+
+                <div class="menu-cards">
+                    <div class="card" onclick="selecionarModo('simples')">
+                        <div class="card-icon">🔢</div>
+                        <h3>Valores Individuais</h3>
+                        <p>Dados discretos com frequências específicas</p>
+                        <ul class="card-features">
+                            <li>Valores únicos</li>
+                            <li>Frequências absolutas</li>
+                            <li>Análise direta</li>
+                        </ul>
+                        <button class="card-button">Selecionar</button>
+                    </div>
+
+                    <div class="card" onclick="selecionarModo('classes')">
+                        <div class="card-icon">📈</div>
+                        <h3>Intervalos de Classe</h3>
+                        <p>Dados agrupados em intervalos contínuos</p>
+                        <ul class="card-features">
+                            <li>Limites de classe</li>
+                            <li>Pontos médios</li>
+                            <li>Análise agrupada</li>
+                        </ul>
+                        <button class="card-button">Selecionar</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Entrada Valores Simples -->
+            <section id="entradaSimples" class="input-section hidden">
+                <div class="section-header">
+                    <h2>📊 Valores Individuais</h2>
+                    <p>Insira os valores e suas respectivas frequências</p>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Dados de Entrada</h3>
+                        <button class="btn-add" onclick="adicionarLinhaSimples()">
+                            <span>+</span> Adicionar Linha
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-value">Valor</th>
+                                    <th class="col-frequency">Frequência</th>
+                                    <th class="col-actions">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaSimples"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-secondary" onclick="adicionarLinhaSimples()">
+                        <span>+</span> Nova Linha
+                    </button>
+                    <div class="primary-actions">
+                        <button class="btn-primary" onclick="calcularSimples()">
+                            <span>📈</span> Calcular Estatísticas
+                        </button>
+                        <button class="btn-back" onclick="voltarMenu()">
+                            <span>←</span> Voltar
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Entrada Intervalos de Classe -->
+            <section id="entradaClasses" class="input-section hidden">
+                <div class="section-header">
+                    <h2>📈 Intervalos de Classe</h2>
+                    <p>Insira os intervalos de classe e suas frequências</p>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Dados Agrupados</h3>
+                        <button class="btn-add" onclick="adicionarLinhaClasse()">
+                            <span>+</span> Adicionar Linha
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-lower">Limite Inferior</th>
+                                    <th class="col-upper">Limite Superior</th>
+                                    <th class="col-frequency">Frequência</th>
+                                    <th class="col-actions">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaClasses"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="actions-bar">
+                    <button class="btn-secondary" onclick="adicionarLinhaClasse()">
+                        <span>+</span> Nova Linha
+                    </button>
+                    <div class="primary-actions">
+                        <button class="btn-primary" onclick="calcularClasses()">
+                            <span>📈</span> Calcular Estatísticas
+                        </button>
+                        <button class="btn-back" onclick="voltarMenu()">
+                            <span>←</span> Voltar
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resultados -->
+            <section id="resultados" class="results-section hidden">
+                <div class="section-header">
+                    <h2>📋 Resultados Estatísticos</h2>
+                    <p>Análise completa dos dados fornecidos</p>
+                </div>
+
+                <div class="results-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <h4>Média Aritmética</h4>
+                            <p class="stat-value" id="media">-</p>
+                            <span class="stat-desc">Valor médio do conjunto</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">⚖️</div>
+                        <div class="stat-info">
+                            <h4>Mediana</h4>
+                            <p class="stat-value" id="mediana">-</p>
+                            <span class="stat-desc">Valor central ordenado</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">🔢</div>
+                        <div class="stat-info">
+                            <h4>Moda</h4>
+                            <p class="stat-value" id="moda">-</p>
+                            <span class="stat-desc">Valor mais frequente</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📏</div>
+                        <div class="stat-info">
+                            <h4>Desvio Padrão</h4>
+                            <p class="stat-value" id="desvio">-</p>
+                            <span class="stat-desc">Dispersão dos dados</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📐</div>
+                        <div class="stat-info">
+                            <h4>Variância</h4>
+                            <p class="stat-value" id="variancia">-</p>
+                            <span class="stat-desc">Variabilidade quadrática</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📉</div>
+                        <div class="stat-info">
+                            <h4>Coef. de Variação</h4>
+                            <p class="stat-value" id="coeficiente">-</p>
+                            <span class="stat-desc">Dispersão relativa (%)</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card highlight">
+                        <div class="stat-icon">🔢</div>
+                        <div class="stat-info">
+                            <h4>Total de Elementos</h4>
+                            <p class="stat-value" id="total">-</p>
+                            <span class="stat-desc">Amostra total analisada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela ABNT para Classes -->
+                <div class="tabela-abnt-container hidden" id="tabelaClassesContainer">
+                    <h4>📋 Tabela de Distribuição de Frequências por Classes - ABNT</h4>
+                    <div class="table-wrapper">
+                        <table class="tabela-abnt" id="tabela-abnt-classes">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="bordered">i</th>
+                                    <th rowspan="2" class="bordered">Intervalo de Classe</th>
+                                    <th rowspan="2" class="bordered">Ponto Médio (xᵢ)</th>
+                                    <th rowspan="2" class="bordered">Frequência (fᵢ)</th>
+                                    <th colspan="2" class="bordered">Frequência Relativa</th>
+                                    <th colspan="2" class="bordered">Frequência Acumulada</th>
+                                </tr>
+                                <tr>
+                                    <th class="bordered">fᵣ (%)</th>
+                                    <th class="bordered">fᵣ Acum (%)</th>
+                                    <th class="bordered">fᵢ Acum</th>
+                                    <th class="bordered">F(%)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-classes-body">
+                                <!-- Os dados serão inseridos aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="legenda-tabela">
+                        <p><strong>Legenda:</strong> i = índice da classe; xᵢ = ponto médio; fᵢ = frequência absoluta; fᵣ = frequência relativa</p>
+                        <p><strong>Amplitude das classes:</strong> <span id="amplitude-classes">-</span></p>
+                        <p><strong>Classes em cinza:</strong> Intervalos adicionados com frequência zero para completar a distribuição</p>
+                    </div>
+                </div>
+
+                <!-- Gráfico -->
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <h3>Visualização dos Dados</h3>
+                        <p>Distribuição de frequências representada graficamente</p>
+                    </div>
+                    <div class="grafico-container">
+                        <canvas id="grafico"></canvas>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn-back" onclick="voltarMenu()">
+                        <span>←</span> Nova Análise
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>© 2025 Calculadora Estatística - Desenvolvido para análises precisas - Projeto Acadêmico</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+
+
+</body>
+</html>
