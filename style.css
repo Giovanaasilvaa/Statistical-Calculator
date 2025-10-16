@@ -626,18 +626,184 @@ body {
     }
 }
 
-/* Animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Melhorias específicas para mobile */
+@media (max-width: 768px) {
+  /* Ajuste do gráfico para mobile */
+  .grafico-container {
+    height: 300px !important; /* Reduz altura em mobile */
+    padding: 0.5rem;
+    margin: 0 -0.5rem; /* Compensa o padding do container pai */
+  }
+  
+  /* Melhorias na legibilidade do gráfico */
+  #grafico {
+    max-height: 100%;
+    width: 100% !important;
+  }
+  
+  /* Ajustes nas seções para melhor aproveitamento de espaço */
+  .menu-section, .input-section, .results-section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* Otimização do grid de resultados */
+  .results-grid {
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-icon {
+    font-size: 1.5rem;
+  }
+  
+  .stat-value {
+    font-size: 1.3rem;
+  }
+  
+  /* Melhorias nas tabelas ABNT */
+  .tabela-abnt-container {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .tabela-abnt {
+    font-size: 0.75rem;
+  }
+  
+  .tabela-abnt th,
+  .tabela-abnt td {
+    padding: 0.4rem 0.2rem;
+  }
+  
+  /* Ajuste no cabeçalho para mobile */
+  .logo h1 {
+    font-size: 1.8rem;
+  }
+  
+  .tagline {
+    font-size: 1rem;
+  }
+  
+  /* Melhorias específicas para tabelas de entrada */
+  .table-container {
+    padding: 1rem;
+  }
+  
+  .data-table {
+    min-width: unset;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 0.7rem 0.5rem;
+  }
+  
+  /* Ajustes nos botões para mobile */
+  .actions-bar {
+    gap: 0.8rem;
+  }
+  
+  .btn-primary, .btn-secondary, .btn-back {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.85rem;
+  }
 }
 
-.input-section, .results-section {
-    animation: fadeInUp 0.5s ease-out;
+/* Para telas muito pequenas (smartphones menores) */
+@media (max-width: 480px) {
+  .grafico-container {
+    height: 250px !important;
+  }
+  
+  .menu-cards {
+    gap: 1rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .card-icon {
+    font-size: 2.5rem;
+  }
+  
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .tabela-abnt {
+    font-size: 0.7rem;
+  }
+  
+  /* Ajustes para tabelas em telas muito pequenas */
+  .data-table {
+    font-size: 0.85rem;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 0.5rem 0.3rem;
+  }
+  
+  /* Botões em coluna única */
+  .primary-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .primary-actions button {
+    width: 100%;
+  }
+}
+
+/* Melhorias específicas para o gráfico em orientação paisagem */
+@media (max-width: 768px) and (orientation: landscape) {
+  .grafico-container {
+    height: 250px !important;
+  }
+  
+  .main-content {
+    padding: 0.5rem;
+  }
+}
+
+/* Melhorias de performance para gráficos em mobile */
+.grafico-container {
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+}
+
+/* Ajuste para evitar zoom em inputs em iOS */
+@media (max-width: 768px) {
+  .data-table input {
+    font-size: 16px; /* Previne zoom automático no iOS */
+  }
+}
+
+/* Melhorias na legibilidade das tabelas em mobile */
+@media (max-width: 768px) {
+  .tabela-abnt th,
+  .tabela-abnt td {
+    word-break: break-word;
+    line-height: 1.2;
+  }
+  
+  .legenda-tabela {
+    font-size: 0.8rem;
+    padding: 0.8rem;
+  }
 }
