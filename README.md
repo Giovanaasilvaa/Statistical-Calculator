@@ -3,7 +3,7 @@
 <p align="center"><em>Complete data analysis with advanced visualizations and a modern interface</em></p> 
 <p align="center"> 
   <img src="https://img.shields.io/badge/last%20commit-october-blue?style=flat-square" /> 
-  <img src="https://img.shields.io/badge/javascript-100%25-F7DF1E?style=flat-square&logo=javascript&logoColor=black" /> 
+  <img src="https://img.shields.io/badge/javascript-57.2%25-F7DF1E?style=flat-square&logo=javascript&logoColor=black" /> 
   <img src="https://img.shields.io/badge/technologies-3-blue?style=flat-square" /> </p> 
   
   <h3 align="center">🧠 Technologies and Tools Used:</h3> <p align="center"> 
