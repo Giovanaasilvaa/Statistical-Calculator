@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Calculadora Estatística Avançada</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,10 +20,10 @@
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
-            
+
 
             <div class="header-content">
-                
+
                 <div class="logo">
                     <span class="logo-icon">📊</span>
                     <h1>Calculadora Estatística</h1>
@@ -253,9 +256,11 @@
                         </table>
                     </div>
                     <div class="legenda-tabela">
-                        <p><strong>Legenda:</strong> i = índice da classe; xᵢ = ponto médio; fᵢ = frequência absoluta; fᵣ = frequência relativa</p>
+                        <p><strong>Legenda:</strong> i = índice da classe; xᵢ = ponto médio; fᵢ = frequência absoluta;
+                            fᵣ = frequência relativa</p>
                         <p><strong>Amplitude das classes:</strong> <span id="amplitude-classes">-</span></p>
-                        <p><strong>Classes em cinza:</strong> Intervalos adicionados com frequência zero para completar a distribuição</p>
+                        <p><strong>Classes em cinza:</strong> Intervalos adicionados com frequência zero para completar
+                            a distribuição</p>
                     </div>
                 </div>
 
@@ -288,4 +293,5 @@
 
 
 </body>
+
 </html>
