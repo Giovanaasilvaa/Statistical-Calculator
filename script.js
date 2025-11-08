@@ -540,13 +540,10 @@ function gerarHistograma(classes) {
                 y1: {
                     beginAtZero: true,
                     position: 'right',
-                    title: {
-                        display: false
-                    },
+                    display: false, 
                     grid: { drawOnChartArea: false },
                     ticks: {
-                        font: { size: 11 },
-                        callback: value => value + '%'
+                        display: false 
                     },
                     max: 100
                 }
@@ -681,3 +678,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
