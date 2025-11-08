@@ -7,10 +7,10 @@ function selecionarModo(modo) {
     document.getElementById("tabelaClassesContainer").classList.add("hidden");
     limparGrafico();
     limparMensagensErro();
-    
+
     document.getElementById("entradaSimples").classList.add("hidden");
     document.getElementById("entradaClasses").classList.add("hidden");
-    
+
     if (modo === "simples") {
         document.getElementById("entradaSimples").classList.remove("hidden");
         document.getElementById("tabelaSimples").innerHTML = "";
@@ -49,9 +49,9 @@ function scrollParaResultados() {
     setTimeout(() => {
         const resultados = document.getElementById("resultados");
         if (resultados) {
-            resultados.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            resultados.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
     }, 100);
@@ -62,7 +62,7 @@ function adicionarLinhaSimples() {
     const tbody = document.getElementById("tabelaSimples");
     const tr = document.createElement("tr");
     const id = Date.now() + Math.random();
-    
+
     tr.innerHTML = `
         <td><input type="number" step="any" id="valor-${id}" placeholder="Ex: 10.5"></td>
         <td><input type="number" min="1" step="1" value="1" id="freq-${id}" placeholder="Ex: 5"></td>
@@ -83,14 +83,14 @@ function removerLinha(botao) {
 function validarDadosSimples() {
     const linhas = document.querySelectorAll("#tabelaSimples tr");
     let dadosValidos = true;
-    
+
     linhas.forEach(linha => {
         const inputs = linha.querySelectorAll("input");
         const valor = inputs[0];
         const freq = inputs[1];
         const v = parseFloat(valor.value);
         const f = parseInt(freq.value);
-        
+
         if (isNaN(v) || isNaN(f) || f < 0) {
             dadosValidos = false;
             valor.style.borderColor = "#e74c3c";
@@ -100,40 +100,40 @@ function validarDadosSimples() {
             freq.style.borderColor = "";
         }
     });
-    
+
     return dadosValidos;
 }
 
 function calcularSimples() {
     limparMensagensErro();
-    
+
     if (!validarDadosSimples()) {
-        mostrarErro("Preencha todos os campos corretamente. Valores devem ser números e frequências devem ser inteiros positivos.", 
-                   document.getElementById("entradaSimples"));
+        mostrarErro("Preencha todos os campos corretamente. Valores devem ser números e frequências devem ser inteiros positivos.",
+            document.getElementById("entradaSimples"));
         return;
     }
-    
+
     const linhas = document.querySelectorAll("#tabelaSimples tr");
     const dados = [];
     const valoresUnicos = [];
     const frequencias = [];
-    
+
     linhas.forEach(linha => {
         const inputs = linha.querySelectorAll("input");
         const v = parseFloat(inputs[0].value);
         const f = parseInt(inputs[1].value);
-        
+
         valoresUnicos.push(v);
         frequencias.push(f);
-        
+
         for (let i = 0; i < f; i++) dados.push(v);
     });
-    
+
     if (dados.length === 0) {
         mostrarErro("Nenhum dado válido encontrado.", document.getElementById("entradaSimples"));
         return;
     }
-    
+
     calcularEstatisticas(dados, valoresUnicos, frequencias);
     gerarGraficoFrequencia(valoresUnicos, frequencias);
     scrollParaResultados();
@@ -144,7 +144,7 @@ function adicionarLinhaClasse() {
     const tbody = document.getElementById("tabelaClasses");
     const tr = document.createElement("tr");
     const id = Date.now() + Math.random();
-    
+
     tr.innerHTML = `
         <td><input type="number" step="any" id="li-${id}" placeholder="Ex: 0"></td>
         <td><input type="number" step="any" id="ls-${id}" placeholder="Ex: 10"></td>
@@ -158,7 +158,7 @@ function validarDadosClasses() {
     const linhas = document.querySelectorAll("#tabelaClasses tr");
     let dadosValidos = true;
     let limiteAnterior = null;
-    
+
     linhas.forEach(linha => {
         const inputs = linha.querySelectorAll("input");
         const li = inputs[0];
@@ -167,7 +167,7 @@ function validarDadosClasses() {
         const inf = parseFloat(li.value);
         const sup = parseFloat(ls.value);
         const f = parseInt(freq.value);
-        
+
         if (isNaN(inf) || isNaN(sup) || isNaN(f) || inf >= sup || f < 0) {
             dadosValidos = false;
             li.style.borderColor = "#e74c3c";
@@ -178,54 +178,54 @@ function validarDadosClasses() {
             ls.style.borderColor = "";
             freq.style.borderColor = "";
         }
-        
+
         if (limiteAnterior !== null && inf < limiteAnterior) {
             dadosValidos = false;
             li.style.borderColor = "#e74c3c";
-            mostrarErro("Os intervalos de classe devem estar em ordem crescente e não podem se sobrepor.", 
-                       document.getElementById("entradaClasses"));
+            mostrarErro("Os intervalos de classe devem estar em ordem crescente e não podem se sobrepor.",
+                document.getElementById("entradaClasses"));
         }
-        
+
         limiteAnterior = sup;
     });
-    
+
     return dadosValidos;
 }
 
 function calcularClasses() {
     limparMensagensErro();
-    
+
     if (!validarDadosClasses()) {
-        mostrarErro("Preencha todos os campos corretamente. Verifique se os intervalos são válidos e as frequências são positivas.", 
-                   document.getElementById("entradaClasses"));
+        mostrarErro("Preencha todos os campos corretamente. Verifique se os intervalos são válidos e as frequências são positivas.",
+            document.getElementById("entradaClasses"));
         return;
     }
-    
+
     const linhas = document.querySelectorAll("#tabelaClasses tr");
     const classes = [];
     let totalFreq = 0;
-    
+
     linhas.forEach(linha => {
         const inputs = linha.querySelectorAll("input");
         const inf = parseFloat(inputs[0].value);
         const sup = parseFloat(inputs[1].value);
         const f = parseInt(inputs[2].value);
-        
+
         const pontoMedio = (inf + sup) / 2;
-        classes.push({ 
-            inf, 
-            sup, 
-            freq: f, 
+        classes.push({
+            inf,
+            sup,
+            freq: f,
             pm: pontoMedio
         });
         totalFreq += f;
     });
-    
+
     if (classes.length === 0) {
         mostrarErro("Nenhum dado válido encontrado.", document.getElementById("entradaClasses"));
         return;
     }
-    
+
     calcularEstatisticasClasses(classes, totalFreq);
     scrollParaResultados();
 }
@@ -234,49 +234,49 @@ function calcularEstatisticasClasses(classes, totalFreq) {
     let somaPonderada = 0;
     let variancia = 0;
     let modaClasse = classes[0];
-    
+
     classes.forEach(classe => {
         somaPonderada += classe.pm * classe.freq;
         if (classe.freq > modaClasse.freq) {
             modaClasse = classe;
         }
     });
-    
+
     const media = somaPonderada / totalFreq;
-    
+
     let freqAcumulada = 0;
     let medianaClasse = null;
     let mediana = 0;
-    
+
     for (let i = 0; i < classes.length; i++) {
         freqAcumulada += classes[i].freq;
         if (freqAcumulada >= totalFreq / 2 && !medianaClasse) {
             medianaClasse = classes[i];
             const freqAnt = freqAcumulada - classes[i].freq;
             const ampClasse = classes[i].sup - classes[i].inf;
-            mediana = classes[i].inf + ((totalFreq/2 - freqAnt) / classes[i].freq) * ampClasse;
+            mediana = classes[i].inf + ((totalFreq / 2 - freqAnt) / classes[i].freq) * ampClasse;
             break;
         }
     }
-    
+
     classes.forEach(classe => {
         variancia += classe.freq * Math.pow(classe.pm - media, 2);
     });
     variancia /= totalFreq;
-    
+
     const desvioPadrao = Math.sqrt(variancia);
     const coeficienteVariacao = (desvioPadrao / media) * 100;
-    
+
     const indexModa = classes.findIndex(c => c.freq === modaClasse.freq);
     let moda = modaClasse.pm;
-    
+
     if (indexModa > 0 && indexModa < classes.length - 1) {
         const d1 = classes[indexModa].freq - classes[indexModa - 1].freq;
         const d2 = classes[indexModa].freq - classes[indexModa + 1].freq;
         const ampClasseModa = classes[indexModa].sup - classes[indexModa].inf;
         moda = classes[indexModa].inf + (d1 / (d1 + d2)) * ampClasseModa;
     }
-    
+
     mostrarResultados(media, mediana, moda, desvioPadrao, variancia, coeficienteVariacao, totalFreq);
     gerarHistograma(classes);
 }
@@ -284,21 +284,21 @@ function calcularEstatisticasClasses(classes, totalFreq) {
 // --------- CÁLCULO ESTATÍSTICO (para dados simples) ---------
 function calcularEstatisticas(dados, valoresUnicos, frequencias) {
     const n = dados.length;
-    
+
     const media = dados.reduce((a, b) => a + b, 0) / n;
-    
+
     const sorted = [...dados].sort((a, b) => a - b);
     const meio = Math.floor(n / 2);
     const mediana = n % 2 === 0 ? (sorted[meio - 1] + sorted[meio]) / 2 : sorted[meio];
-    
+
     const frequenciaMap = {};
     dados.forEach(valor => {
         frequenciaMap[valor] = (frequenciaMap[valor] || 0) + 1;
     });
-    
+
     let moda = [];
     let maxFreq = 0;
-    
+
     for (const valor in frequenciaMap) {
         if (frequenciaMap[valor] > maxFreq) {
             moda = [parseFloat(valor)];
@@ -307,11 +307,11 @@ function calcularEstatisticas(dados, valoresUnicos, frequencias) {
             moda.push(parseFloat(valor));
         }
     }
-    
+
     const variancia = dados.reduce((acc, val) => acc + Math.pow(val - media, 2), 0) / n;
     const desvioPadrao = Math.sqrt(variancia);
     const coeficienteVariacao = (desvioPadrao / media) * 100;
-    
+
     mostrarResultados(media, mediana, moda.join(', '), desvioPadrao, variancia, coeficienteVariacao, n);
 }
 
@@ -379,7 +379,7 @@ function gerarGraficoFrequencia(valores, frequencias) {
                     titleFont: { size: 13, weight: "bold" },
                     bodyFont: { size: 12 },
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return `${context.parsed.y} ocorrências`;
                         }
                     }
@@ -430,7 +430,6 @@ function gerarGraficoFrequencia(valores, frequencias) {
 
 
 // HISTOGRAMA 
-// HISTOGRAMA
 function gerarHistograma(classes) {
     const ctx = document.getElementById("grafico").getContext("2d");
     limparGrafico();
@@ -547,6 +546,7 @@ function gerarHistograma(classes) {
                     },
                     max: 100
                 }
+
             },
             elements: {
                 bar: {
