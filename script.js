@@ -316,14 +316,28 @@ function calcularEstatisticas(dados, valoresUnicos, frequencias) {
 }
 
 // --------- RESULTADOS E GRÁFICO ---------
+function arredondarIBGE(valor) {
+    return Math.sign(valor) * Math.round(Math.abs(valor) * 100) / 100;
+}
+
 function mostrarResultados(media, mediana, moda, desvio, variancia, coeficiente, total) {
-    document.getElementById("media").textContent = media.toFixed(4);
-    document.getElementById("mediana").textContent = mediana.toFixed(4);
-    document.getElementById("moda").textContent = moda;
-    document.getElementById("desvio").textContent = desvio.toFixed(4);
-    document.getElementById("variancia").textContent = variancia.toFixed(4);
-    document.getElementById("coeficiente").textContent = coeficiente.toFixed(2) + '%';
+
+    const mediaR = arredondarIBGE(media);
+    const medianaR = arredondarIBGE(mediana);
+    const modaR = isNaN(parseFloat(moda)) ? moda : arredondarIBGE(parseFloat(moda));
+    const coeficienteR = arredondarIBGE(coeficiente);
+
+    const desvioR = desvio;
+    const varianciaR = variancia;
+
+    document.getElementById("media").textContent = mediaR.toFixed(2);
+    document.getElementById("mediana").textContent = medianaR.toFixed(2);
+    document.getElementById("moda").textContent = modaR;
+    document.getElementById("desvio").textContent = desvioR.toFixed(4);
+    document.getElementById("variancia").textContent = varianciaR.toFixed(4);
+    document.getElementById("coeficiente").textContent = coeficienteR.toFixed(2) + '%';
     document.getElementById("total").textContent = total;
+
     document.getElementById("resultados").classList.remove("hidden");
 }
 
@@ -678,4 +692,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
 
